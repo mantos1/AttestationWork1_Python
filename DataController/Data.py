@@ -87,8 +87,8 @@ def delete_note(id, name = "", body = ""):
     return "true"
 
 def export_into_file(type = ""):
-    # 0 - экспорт в new_data.json
-    # 1 - экспорт в new_data.xml
+    # 0 - экспорт в export_data.json
+    # 1 - экспорт в export_data.xml
     if type == "" or type.isdigit() != 1:
         return "false"
 
@@ -111,4 +111,41 @@ def export_into_file(type = ""):
             ET.SubElement(item, "date_create").text = str(value[3])
         tree = ET.ElementTree(root)
         tree.write("export_data.xml", xml_declaration=True , encoding='utf-8')
+        return "true"
+
+
+def import_from_file(type = ""):
+    # 0 - импорт из new_data.json
+    # 1 - импорт из new_data.xml
+
+    if type == "" or type.isdigit() != 1:
+        return "false"
+    c = 0
+    query = "INSERT INTO notes (name, body, date_insert) VALUES(?, ?, datetime('now','localtime'))"
+
+    if type == "0":
+        with open("new_data.json", "r", encoding = "UTF8") as write_file:
+            data = jn.load(write_file)
+            columns = ['name', 'body']
+
+            for row in data:
+                # cur.execute(f"SELECT count(1) FROM notes WHERE name = '{row['name']}' AND body = '{row['body']}'")
+                # data = cur.fetchall()
+                # for r in data:
+                #     if r[0] == 0:
+                keys = tuple([row[c].title() if c == 'name' else row[c][1:] if row[c][0] != '9' else row[c] for c in columns])
+                cur.execute(query, keys)
+                conn.commit()
+                c += 1
+                # conn.close()
+        return "true"
+
+    elif type == "1":
+        tree = ET.parse('new_data.xml')
+        root = tree.getroot()
+        for i in root:
+            keys = (i[0].text.title(), i[1].text[1:] if i[1].text[0] != '9' else i[1].text)
+            cur.execute(query, keys)
+            conn.commit()
+            c += 1
         return "true"

@@ -63,3 +63,10 @@ def get_action(type_action):
             print(v.get_caption(9))
         else:
             print(v.get_caption(6))
+
+    elif type_action == "6":
+        check = dt.import_from_file(input(str(v.get_caption(10))))
+        if check == "true":
+            print(v.get_caption(11))
+        else:
+            print(v.get_caption(6))

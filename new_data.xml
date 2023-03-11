@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<root>
+    <item name = "item1">
+        <name>test800</name>
+        <body>ascsacsacsac</body>
+    </item>
+    <item name = "item2">
+        <name>test900</name>
+        <body>dvdsvdsv</body>
+    </item>
+    <item name = "item3">
+        <name>test999</name>
+        <body>dvsdsvdsvsd</body>
+    </item>
+</root>
