@@ -1,4 +1,4 @@
-#!.\venv\Scripts\python.ex1e
+#!.\venv\Scripts\python.exe
 
 from Control import Controller as c
 
